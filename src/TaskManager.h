@@ -1,8 +1,6 @@
 #ifndef TASKMANAGER_H
 #define TASKMANAGER_H
 
-#include "Arduino.h"
-
 #ifndef FIRSTRUN_SEED 
 #define FIRSTRUN_SEED 125
 #endif
@@ -29,7 +27,7 @@ class TaskManager {
     TaskManager();
     void handle(uint32_t time);
     task* getTaskList();
-    int getTaskListSize();
+    int getTaskListByteSize();
     void addTask(void (*fn)(), uint32_t startTime);
     uint32_t nextTaskTime(uint32_t time);
           

@@ -33,6 +33,8 @@ void setup()
 {
   uint32_t timeStamp = millis();
 
+  
+
   Serial.begin(115200);
   delay(500);
   Serial.println();
@@ -57,7 +59,7 @@ void setup()
   }
   else
   {
-    if (ESP.rtcUserMemoryRead(16, (uint32_t *)taskManager.getTaskList(), taskManager.getTaskListSize()))
+    if (ESP.rtcUserMemoryRead(16, (uint32_t *)taskManager.getTaskList(), taskManager.getTaskListByteSize()))
     {
       Serial.println("Read task list: ");
     }
@@ -80,7 +82,7 @@ void setup()
     Serial.println("Writing global data...");
   }
 
-  if (ESP.rtcUserMemoryWrite(16, (uint32_t *)taskManager.getTaskList(), taskManager.getTaskListSize()))
+  if (ESP.rtcUserMemoryWrite(16, (uint32_t *)taskManager.getTaskList(), taskManager.getTaskListByteSize()))
   {
     Serial.println("Writing task list...");
   }

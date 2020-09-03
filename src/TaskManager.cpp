@@ -4,23 +4,34 @@
 
 #include "TaskManager.h"
 
+namespace
+{
+  void nullFn(){};
+  task nullTask{&nullFn, 0xffffffff};  
+}
 
-static void nullFn(){};
-static task nullTask{&nullFn,0xffffffff};
+//static void nullFn(){};
+//static task nullTask{&nullFn, 0xffffffff};
 
-TaskManager::TaskManager(){  
+TaskManager::TaskManager()
+{
+  vf();
+  svf();
   this->initTaskList();
 }
 
-void TaskManager::handle(uint32_t time) {
+void TaskManager::handle(uint32_t time)
+{
   this->checkTaskList(time);
 }
 
-task* TaskManager::getTaskList() {
+task *TaskManager::getTaskList()
+{
   return this->_taskList;
 }
 
-int TaskManager::getTaskListSize() {
+int TaskManager::getTaskListByteSize()
+{
   return sizeof(this->_taskList);
 }
 
@@ -36,18 +47,19 @@ void TaskManager::addTask(void (*fn)(), uint32_t startTime)
       break;
     }
     i++;
-  }  
+  }
 }
 
 void TaskManager::checkTaskList(uint32_t time)
-{  
+{
   for (int i = 0; i < TASKLIST_SIZE; i++)
   {
+    /*
     Serial.print("checking task index: ");
     Serial.print(i);
     Serial.print(" startTime: ");
     Serial.println(this->_taskList[i].startTime);
-
+    */
     if (time >= this->_taskList[i].startTime)
     {
       // save task func pointer
@@ -57,7 +69,7 @@ void TaskManager::checkTaskList(uint32_t time)
       // run task
       (*taskFunc)();
     }
-  }  
+  }
 }
 
 uint32_t TaskManager::nextTaskTime(uint32_t time)
@@ -78,4 +90,3 @@ void TaskManager::initTaskList()
     this->_taskList[i] = nullTask;
   }
 }
-
